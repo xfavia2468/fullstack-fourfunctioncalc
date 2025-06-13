@@ -9,7 +9,7 @@ function Calculator() {
 		{ text: "M", onClick: () => toMemory() },
 		{ text: "C", onClick: () => clearAll() },
 
-		{ text: "MR/C", onClick: () => memoryRecallClear() },
+		{ text: "MRC", onClick: () => memoryRecallClear() },
 		{ text: "M-", onClick: () => addSubFromMemory(-1) },
 		{ text: "M+", onClick: () => addSubFromMemory(1) },
 		{ text: "÷", onClick: () => appendToExpression("/") },
