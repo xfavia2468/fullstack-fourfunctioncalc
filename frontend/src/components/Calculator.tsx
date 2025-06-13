@@ -31,10 +31,21 @@ function Calculator() {
 
 		{ text: "0", onClick: () => appendToExpression("0") },
 		{ text: ".", onClick: () => appendToExpression(".") },
-		{ text: "=", onClick: () => callCalculateApi() },
+		{
+			text: "=",
+			onClick: () => {
+				if (!isCalculating) callCalculateApi();
+			},
+		},
 	];
 
 	const callCalculateApi = () => {
+		if (isCalculating) return;
+		if (!expression) return;
+		if (expression.includes("error")) return;
+
+		setCalculating(true);
+
 		fetch("api/submit", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -43,7 +54,7 @@ function Calculator() {
 			.then((response) => response.json())
 			.then((data) => {
 				setExpression(() => {
-					const result = data.result;
+					const result = String(data.result);
 					updateDisplay(result);
 					console.log(data);
 					return result;
@@ -52,12 +63,16 @@ function Calculator() {
 			.catch((err) => {
 				console.error("Error:", err);
 				setDisplay("Error");
+			})
+			.finally(() => {
+				setCalculating(false);
 			});
 	};
 
 	const appendToExpression = (inp: string) => {
 		setExpression((prevExpression) => {
-			const newExpression = prevExpression + inp;
+			let newExpression = prevExpression + inp;
+			if (expression == "0" && !"-+/*".includes(inp)) newExpression = inp;
 			updateDisplay(newExpression);
 			return newExpression;
 		});
@@ -74,7 +89,7 @@ function Calculator() {
 	const clearAll = () => {
 		setExpression(() => {
 			updateDisplay("0");
-			return "";
+			return "0";
 		});
 	};
 
@@ -86,7 +101,7 @@ function Calculator() {
 		if (parseFloat(display) == parseFloat(memory)) {
 			setMemory(() => {
 				updateDisplay("0");
-				setExpression("");
+				setExpression("0");
 				return "0";
 			});
 		} else {
@@ -128,8 +143,9 @@ function Calculator() {
 	};
 
 	const [display, setDisplay] = useState("0");
-	const [expression, setExpression] = useState("");
+	const [expression, setExpression] = useState("0");
 	const [memory, setMemory] = useState("0");
+	const [isCalculating, setCalculating] = useState(false);
 
 	return (
 		<div id="calculator-body">
@@ -152,6 +168,7 @@ function Calculator() {
 							className={className}
 							text={btn.text}
 							onClick={btn.onClick}
+							disabled={btn.text === "=" && isCalculating}
 						/>
 					);
 				})}
