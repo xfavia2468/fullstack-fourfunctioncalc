@@ -1,9 +1,11 @@
 from urllib import request
 from flask import Flask, render_template, request, url_for, session, redirect, jsonify
-import re, math, ast, operator
+import re, math, ast, operator, os
+from flask_cors import CORS
 
 app = Flask(__name__)
-app.secret_key = 'SUPER_SECRET_KEY'
+CORS(app)
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-key")
 
 ''' ================================MATH================================'''
 
@@ -104,4 +106,4 @@ def api_submit():
     
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
