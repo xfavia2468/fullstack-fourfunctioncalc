@@ -42,9 +42,12 @@ function Calculator() {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				setExpression(data.result);
-				updateDisplay(data.result);
-				console.log(data);
+				setExpression(() => {
+					const result = data.result;
+					updateDisplay(result);
+					console.log(data);
+					return result;
+				});
 			})
 			.catch((err) => {
 				console.error("Error:", err);

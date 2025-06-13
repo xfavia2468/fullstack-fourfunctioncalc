@@ -7,6 +7,7 @@ app.secret_key = 'SUPER_SECRET_KEY'
 
 ''' ================================MATH================================'''
 
+# Supported operators
 operators = {
     ast.Add: operator.add,
     ast.Sub: operator.sub,
@@ -32,24 +33,32 @@ def safe_eval(node):
         op_type = type(node.op)
         if op_type in operators:
             return operators[op_type](left, right)
+        else:
+            raise ValueError(f"Unsupported binary operator: {op_type}")
     elif isinstance(node, ast.UnaryOp):
         operand = safe_eval(node.operand)
         op_type = type(node.op)
         if op_type in operators:
             return operators[op_type](operand)
-    elif isinstance(node, ast.Call):
-        func_name = node.func.id
-        if func_name in allowed_functions:
-            args = [safe_eval(arg) for arg in node.args]
-            return allowed_functions[func_name](*args)
         else:
-            raise ValueError(f"Unsupported function: {func_name}")
-    elif isinstance(node, ast.Num):  # Python < 3.8
-        return node.n
+            raise ValueError(f"Unsupported unary operator: {op_type}")
+    elif isinstance(node, ast.Call):
+        if isinstance(node.func, ast.Name):
+            func_name = node.func.id
+            if func_name in allowed_functions:
+                args = [safe_eval(arg) for arg in node.args]
+                return allowed_functions[func_name](*args)
+            else:
+                raise ValueError(f"Unsupported function: {func_name}")
+        else:
+            raise ValueError("Invalid function call")
     elif isinstance(node, ast.Constant):  # Python >= 3.8
-        return node.value
+        if isinstance(node.value, (int, float)):
+            return node.value
+        else:
+            raise ValueError("Only numeric constants are allowed")
     else:
-        raise ValueError("Unsupported expression")
+        raise ValueError(f"Unsupported expression type: {type(node)}")
 
 def parse_math_expression(expr: str):
     """Parses and evaluates a math expression safely."""
