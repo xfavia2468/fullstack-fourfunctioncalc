@@ -16,7 +16,7 @@ This setup helps reinforce concepts like HTTP requests, REST APIs, state managem
 
 This project contains a React frontend and a Flask backend, running together using Docker Compose.
 
-## Tech Stack
+### Tech Stack
 
 - React (Vite + TypeScript)
 - Flask (Python 3.x)
