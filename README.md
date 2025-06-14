@@ -52,9 +52,9 @@ project-root/
    docker-compose up --build
    ```
 
-3. Once running, open the following URLs:
-
+3. Once running, open the following URL:
    * **Frontend (React)**: [http://localhost:3000](http://localhost:3000)
+     Optional:
    * **Backend (Flask)**: [http://localhost:5000](http://localhost:5000)
 
 ### Stopping the App
