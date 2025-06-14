@@ -54,7 +54,8 @@ project-root/
 
 3. Once running, open the following URL:
    * **Frontend (React)**: [http://localhost:3000](http://localhost:3000)
-     Optional:
+
+   Optional:
    * **Backend (Flask)**: [http://localhost:5000](http://localhost:5000)
 
 ### Stopping the App
