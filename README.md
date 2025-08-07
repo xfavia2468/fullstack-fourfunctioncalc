@@ -10,7 +10,8 @@ Users can enter mathematical expressions in the frontend, which are sent to the 
 
 This setup helps reinforce concepts like HTTP requests, REST APIs, state management, and containerization using Docker and Docker Compose.
 
-<img width="931" height="978" alt="calculator component" src="https://github.com/user-attachments/assets/baff7e1b-de4d-4695-9986-70561cc72c5b" />
+<img width="400" height="533" alt="calculator_component" src="https://github.com/user-attachments/assets/59d24320-dbd4-4b12-8c19-b4d61248cb3f" />
+
 
 ---
 
